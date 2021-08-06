@@ -1,4 +1,4 @@
-package sh.writelog.backend.post
+package sh.writelog.backend.post.domain
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -34,19 +34,21 @@ internal class PostTest: FunSpec({
 
         test("생성 시각은 수정 시각보다 이후일 수 없다.") {
             shouldThrow<IllegalArgumentException> {
-                createPost(LocalDateTime.of(2021, 8, 4, 10, 31), LocalDateTime.of(2021, 8, 4, 10, 30), content = "")
+                PostFixture.create(
+                    LocalDateTime.of(2021, 8, 4, 10, 31), LocalDateTime.of(2021, 8, 4, 10, 30), content = ""
+                )
             }
         }
 
         test("제목은 빈 문자열일 수 없다.") {
             shouldThrow<IllegalArgumentException> {
-                createPost(title = "", content = "")
+                PostFixture.create(title = "", content = "")
             }
         }
 
         test("내용은 빈 문자열일 수 없다.") {
             shouldThrow<IllegalArgumentException> {
-                createPost(content = "")
+                PostFixture.create(content = "")
             }
         }
     }
@@ -58,7 +60,7 @@ internal class PostTest: FunSpec({
                 content = "test-content-2"
             )
             val post = withConstantNow(LocalDateTime.of(2021, 8, 4, 11, 30)) {
-                createPost(title = "test-title-1", content = "test-content-1", lastModifiedAt = LocalDateTime.now())
+                PostFixture.create(title = "test-title-1", content = "test-content-1", lastModifiedAt = LocalDateTime.now())
             }
 
             withConstantNow(LocalDateTime.of(2021, 8, 4, 11, 31)) {
@@ -69,23 +71,35 @@ internal class PostTest: FunSpec({
                 post.lastModifiedAt shouldBe LocalDateTime.now()
             }
         }
+
+        test("포스트 변경 시 제목은 빈 문자열일 수 없다.") {
+            val post = PostFixture.create(
+                title = "post title",
+                content = "content"
+            )
+            val command = UpdatePostCommand(
+                title = ""
+            )
+
+            shouldThrow<IllegalArgumentException> {
+                post.update(command)
+            }
+        }
+
+        test("포스트 변경 시 내용은 빈 문자열일 수 없다.") {
+            val post = PostFixture.create(
+                title = "post title",
+                content = "content"
+            )
+            val command = UpdatePostCommand(
+                title = "title",
+                content = ""
+            )
+
+            shouldThrow<IllegalArgumentException> {
+                post.update(command)
+            }
+        }
     }
 })
-
-private fun createPost(
-    createdAt: LocalDateTime = LocalDateTime.now(),
-    lastModifiedAt: LocalDateTime = LocalDateTime.now(),
-    title: String = "test-title",
-    content: String = "test-content"
-): Post {
-    val comment1 = "test-comment-1"
-    val comment2 = "test-comment-2"
-    val comments = listOf(
-        Comment(comment1),
-        Comment(comment2)
-    )
-    val postId = PostId("test-post-id")
-
-    return Post(postId, title, content, createdAt, lastModifiedAt, comments)
-}
 
