@@ -1,3 +1,7 @@
 package sh.writelog.backend.post.domain
 
-data class PostId(val id: String)
+import java.util.UUID
+
+data class PostId(
+  val id: String = UUID.randomUUID().toString()
+)

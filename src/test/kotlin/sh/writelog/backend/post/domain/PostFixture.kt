@@ -17,6 +17,6 @@ object PostFixture {
         )
         val postId = PostId("test-post-id")
 
-        return Post(postId, title, content, createdAt, lastModifiedAt, comments)
+        return Post.create(postId, title, content, createdAt, lastModifiedAt, comments)
     }
 }

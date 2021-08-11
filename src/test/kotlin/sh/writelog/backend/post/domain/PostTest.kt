@@ -8,7 +8,7 @@ import io.kotest.matchers.shouldNotBe
 import java.time.LocalDateTime
 
 internal class PostTest: FunSpec({
-    context("초기화") {
+    context("create") {
         test("포스트를 생성할 수 있다.") {
             val title = "test-title"
             val content = "test-content"
@@ -21,7 +21,7 @@ internal class PostTest: FunSpec({
                 Comment(comment1),
                 Comment(comment2)
             )
-            val post = Post(postId, title, content, createdAt, lastModifiedAt, comments)
+            val post = Post.create(postId, title, content, createdAt, lastModifiedAt, comments)
 
             post shouldNotBe null
             post.postId shouldBe postId
@@ -35,7 +35,9 @@ internal class PostTest: FunSpec({
         test("생성 시각은 수정 시각보다 이후일 수 없다.") {
             shouldThrow<IllegalArgumentException> {
                 PostFixture.create(
-                    LocalDateTime.of(2021, 8, 4, 10, 31), LocalDateTime.of(2021, 8, 4, 10, 30), content = ""
+                    LocalDateTime.of(2021, 8, 4, 10, 31),
+                    LocalDateTime.of(2021, 8, 4, 10, 30),
+                    content = ""
                 )
             }
         }
@@ -50,6 +52,25 @@ internal class PostTest: FunSpec({
             shouldThrow<IllegalArgumentException> {
                 PostFixture.create(content = "")
             }
+        }
+    }
+
+    context("createNew") {
+        test("포스트 ID, 생성 시각, 마지막 수정 시각, 댓글 리스트 없이 포스트를 생성할 수 있다.") {
+            val title = "test-title"
+            val content = "test-content"
+            val now = LocalDateTime.of(2021, 8, 4, 10, 30)
+            val post = withConstantNow(now) {
+                Post.createNew(title, content)
+            }
+
+            post shouldNotBe null
+            post.postId shouldNotBe null
+            post.title shouldBe title
+            post.content shouldBe content
+            post.createdAt shouldBe now
+            post.lastModifiedAt shouldBe now
+            post.comments shouldBe emptyList()
         }
     }
 

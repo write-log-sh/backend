@@ -2,7 +2,7 @@ package sh.writelog.backend.post.domain
 
 import java.time.LocalDateTime
 
-class Post(
+class Post private constructor(
     val postId: PostId,
     var title: String,
     var content: String,
@@ -10,6 +10,40 @@ class Post(
     var lastModifiedAt: LocalDateTime,
     val comments: List<Comment>,
 ) {
+    companion object {
+        fun createNew(
+            title: String,
+            content: String
+        ): Post {
+          val now = LocalDateTime.now()
+          return Post(
+                postId = PostId(),
+                title,
+                content,
+                createdAt = now,
+                lastModifiedAt = now,
+                comments = emptyList(),
+            )
+        }
+
+        fun create(
+            postId: PostId,
+            title: String,
+            content: String,
+            createdAt: LocalDateTime,
+            lastModifiedAt: LocalDateTime,
+            comments: List<Comment>,
+        ): Post {
+            return Post(
+                postId,
+                title,
+                content,
+                createdAt,
+                lastModifiedAt,
+                comments,
+            )
+        }
+    }
     init {
         if (createdAt > lastModifiedAt) {
             throw IllegalArgumentException("생성 시각은 수정 시각보다 이후일 수 없습니다.")
