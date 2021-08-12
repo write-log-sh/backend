@@ -2,7 +2,7 @@ package sh.writelog.backend.post.domain
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import sh.writelog.backend.post.adaptors.persistence.InMemoryPostRepository
+import sh.writelog.backend.post.adaptors.outbound.persistence.InMemoryPostRepository
 
 internal class PostRemoverTest: FunSpec({
     val postId = PostId("test-post-id")

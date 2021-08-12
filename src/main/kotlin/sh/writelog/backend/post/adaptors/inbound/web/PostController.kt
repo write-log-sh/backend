@@ -1,9 +1,11 @@
-package sh.writelog.backend.post.adaptors.presentation
+
+package sh.writelog.backend.post.adaptors.inbound.web
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import sh.writelog.backend.post.ports.WritePostUseCase
+import sh.writelog.backend.post.application.port.inbound.WritePostCommand
+import sh.writelog.backend.post.application.port.inbound.WritePostUseCase
 
 @RestController("/posts")
 class PostController(
@@ -11,7 +13,8 @@ class PostController(
 ) {
     @PostMapping
     fun writePost(@RequestBody body: WritePostBody) {
-        writePostUseCase.execute()
+        val command = WritePostCommand(body.title, body.content)
+        writePostUseCase.execute(command)
     }
 }
 
