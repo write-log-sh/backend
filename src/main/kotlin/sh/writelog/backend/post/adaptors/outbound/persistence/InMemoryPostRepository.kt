@@ -1,8 +1,10 @@
 package sh.writelog.backend.post.adaptors.outbound.persistence
 
+import org.springframework.stereotype.Component
 import sh.writelog.backend.post.domain.Post
 import sh.writelog.backend.post.domain.PostId
 
+@Component
 class InMemoryPostRepository : PostRepository {
     private val posts = HashMap<PostId, Post>()
 
