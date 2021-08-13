@@ -1,5 +1,7 @@
 package sh.writelog.backend.post.domain
 
+import sh.writelog.backend.post.adaptors.outbound.persistence.PostRepository
+
 class PostRemover(
     private val postRepository: PostRepository
 ) {

@@ -1,4 +1,4 @@
-package sh.writelog.backend.post.domain
+package sh.writelog.backend.post.adaptors.outbound.persistence
 
 import sh.writelog.backend.post.domain.Post
 import sh.writelog.backend.post.domain.PostId

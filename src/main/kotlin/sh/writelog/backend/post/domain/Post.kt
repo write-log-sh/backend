@@ -44,6 +44,7 @@ class Post private constructor(
             )
         }
     }
+
     init {
         if (createdAt > lastModifiedAt) {
             throw IllegalArgumentException("생성 시각은 수정 시각보다 이후일 수 없습니다.")

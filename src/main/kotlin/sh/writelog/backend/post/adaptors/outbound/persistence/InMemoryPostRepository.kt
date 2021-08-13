@@ -2,7 +2,6 @@ package sh.writelog.backend.post.adaptors.outbound.persistence
 
 import sh.writelog.backend.post.domain.Post
 import sh.writelog.backend.post.domain.PostId
-import sh.writelog.backend.post.domain.PostRepository
 
 class InMemoryPostRepository : PostRepository {
     private val posts = HashMap<PostId, Post>()
