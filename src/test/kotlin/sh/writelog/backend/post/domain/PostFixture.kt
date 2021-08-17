@@ -16,7 +16,16 @@ object PostFixture {
             Comment(comment2)
         )
         val postId = PostId("test-post-id")
+        val authorId = AuthorId("test-author-id")
 
-        return Post.create(postId, title, content, createdAt, lastModifiedAt, comments)
+        return Post.create(
+            authorId = authorId,
+            postId = postId,
+            title = title,
+            content = content,
+            createdAt = createdAt,
+            lastModifiedAt = lastModifiedAt,
+            comments = comments
+        )
     }
 }

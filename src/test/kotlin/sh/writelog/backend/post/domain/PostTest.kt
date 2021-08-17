@@ -21,9 +21,19 @@ internal class PostTest: FunSpec({
                 Comment(comment1),
                 Comment(comment2)
             )
-            val post = Post.create(postId, title, content, createdAt, lastModifiedAt, comments)
+            val authorId = AuthorId("test-author-id")
+            val post = Post.create(
+                authorId = authorId,
+                postId = postId,
+                title = title,
+                content = content,
+                createdAt = createdAt,
+                lastModifiedAt = lastModifiedAt,
+                comments = comments
+            )
 
             post shouldNotBe null
+            post.authorId shouldBe authorId
             post.postId shouldBe postId
             post.title shouldBe title
             post.content shouldBe content
@@ -60,11 +70,13 @@ internal class PostTest: FunSpec({
             val title = "test-title"
             val content = "test-content"
             val now = LocalDateTime.of(2021, 8, 4, 10, 30)
+            val authorId = AuthorId("test-author-id")
             val post = withConstantNow(now) {
-                Post.createNew(title, content)
+                Post.createNew(authorId, title, content)
             }
 
             post shouldNotBe null
+            post.authorId shouldBe authorId
             post.postId shouldNotBe null
             post.title shouldBe title
             post.content shouldBe content
@@ -81,7 +93,11 @@ internal class PostTest: FunSpec({
                 content = "test-content-2"
             )
             val post = withConstantNow(LocalDateTime.of(2021, 8, 4, 11, 30)) {
-                PostFixture.create(title = "test-title-1", content = "test-content-1", lastModifiedAt = LocalDateTime.now())
+                PostFixture.create(
+                    title = "test-title-1",
+                    content = "test-content-1",
+                    lastModifiedAt = LocalDateTime.now()
+                )
             }
 
             withConstantNow(LocalDateTime.of(2021, 8, 4, 11, 31)) {

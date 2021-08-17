@@ -7,13 +7,13 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import sh.writelog.backend.post.application.port.inbound.WritePostCommand
-import sh.writelog.backend.post.application.port.outbound.CreatePostPort
+import sh.writelog.backend.post.application.port.outbound.SavePostPort
 import sh.writelog.backend.post.domain.Post
 
 @DisplayName("WritePostService 테스트")
 internal class WritePostServiceTest : FunSpec({
     lateinit var uut: WritePostService
-    lateinit var port: CreatePostPort
+    lateinit var port: SavePostPort
 
     beforeTest {
         port = mockk(relaxed = true)
@@ -24,7 +24,9 @@ internal class WritePostServiceTest : FunSpec({
         test("PostCommand로 작성을 요청하면 port에 동일한 파라미터가 세팅되어야 한다.") {
             val title = "test-title"
             val content = "test-content"
+            val authorId = "test-author-id"
             val command = WritePostCommand(
+                authorId = authorId,
                 title = title,
                 content = content
             )
@@ -33,7 +35,7 @@ internal class WritePostServiceTest : FunSpec({
 
             val slot = slot<Post>()
             verify(exactly = 1) {
-                port.create(capture(slot))
+                port.save(capture(slot))
             }
             slot.captured.title shouldBe title
             slot.captured.content shouldBe content

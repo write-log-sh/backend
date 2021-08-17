@@ -3,6 +3,7 @@ package sh.writelog.backend.post.domain
 import java.time.LocalDateTime
 
 class Post private constructor(
+    val authorId: AuthorId,
     val postId: PostId,
     var title: String,
     var content: String,
@@ -12,14 +13,16 @@ class Post private constructor(
 ) {
     companion object {
         fun createNew(
+            authorId: AuthorId,
             title: String,
-            content: String
+            content: String,
         ): Post {
-          val now = LocalDateTime.now()
-          return Post(
+            val now = LocalDateTime.now()
+            return Post(
+                authorId = authorId,
                 postId = PostId(),
-                title,
-                content,
+                title = title,
+                content = content,
                 createdAt = now,
                 lastModifiedAt = now,
                 comments = emptyList(),
@@ -27,6 +30,7 @@ class Post private constructor(
         }
 
         fun create(
+            authorId: AuthorId,
             postId: PostId,
             title: String,
             content: String,
@@ -35,12 +39,13 @@ class Post private constructor(
             comments: List<Comment>,
         ): Post {
             return Post(
-                postId,
-                title,
-                content,
-                createdAt,
-                lastModifiedAt,
-                comments,
+                authorId = authorId,
+                postId = postId,
+                title = title,
+                content = content,
+                createdAt = createdAt,
+                lastModifiedAt = lastModifiedAt,
+                comments = comments,
             )
         }
     }
