@@ -1,5 +1,3 @@
 package sh.writelog.backend.post.domain
 
-class Comment(comment: String) {
-
-}
+class Comment(val comment: String)

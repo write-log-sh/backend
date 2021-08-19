@@ -1,19 +1,23 @@
-
 package sh.writelog.backend.post.adaptors.inbound.web
 
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import sh.writelog.backend.post.application.port.inbound.ModifyPostCommand
 import sh.writelog.backend.post.application.port.inbound.ModifyPostUseCase
+import sh.writelog.backend.post.application.port.inbound.ReadPostQuery
+import sh.writelog.backend.post.application.port.inbound.ReadPostUseCase
 import sh.writelog.backend.post.application.port.inbound.WritePostCommand
 import sh.writelog.backend.post.application.port.inbound.WritePostUseCase
 
 @RestController("/posts")
 class PostController(
     private val writePostUseCase: WritePostUseCase,
-    private val modifyPostUseCase: ModifyPostUseCase
+    private val modifyPostUseCase: ModifyPostUseCase,
+    private val readPostUseCase: ReadPostUseCase,
 ) {
     @PostMapping
     fun writePost(@RequestBody body: WritePostBody) {
@@ -25,6 +29,14 @@ class PostController(
     fun modifyPost(@RequestBody body: ModifyPostBody) {
         val command = ModifyPostCommand(body.postId, body.authorId, body.title, body.content)
         modifyPostUseCase.execute(command)
+    }
+
+    @GetMapping("/{postId}")
+    fun readPost(
+        @PathVariable postId: String
+    ) {
+        val query = ReadPostQuery(postId)
+        readPostUseCase.execute(query)
     }
 }
 
