@@ -1,11 +1,14 @@
 package sh.writelog.backend.post.adaptors.inbound.web
 
+import java.time.LocalDateTime
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import sh.writelog.backend.post.application.port.inbound.CommentQueryResult
 import sh.writelog.backend.post.application.port.inbound.ModifyPostCommand
 import sh.writelog.backend.post.application.port.inbound.ModifyPostUseCase
 import sh.writelog.backend.post.application.port.inbound.ReadPostQuery
@@ -13,7 +16,8 @@ import sh.writelog.backend.post.application.port.inbound.ReadPostUseCase
 import sh.writelog.backend.post.application.port.inbound.WritePostCommand
 import sh.writelog.backend.post.application.port.inbound.WritePostUseCase
 
-@RestController("/posts")
+@RestController
+@RequestMapping("/posts")
 class PostController(
     private val writePostUseCase: WritePostUseCase,
     private val modifyPostUseCase: ModifyPostUseCase,
@@ -32,11 +36,17 @@ class PostController(
     }
 
     @GetMapping("/{postId}")
-    fun readPost(
-        @PathVariable postId: String
-    ) {
+    fun readPost(@PathVariable postId: String): ReadPostViewModel {
         val query = ReadPostQuery(postId)
-        readPostUseCase.execute(query)
+        val result = readPostUseCase.execute(query)
+        return ReadPostViewModel(
+            authorName = result.authorName,
+            title = result.title,
+            content = result.content,
+            createdAt = result.createdAt,
+            lastModifiedAt = result.lastModifiedAt,
+            comments = result.comments
+        )
     }
 }
 
@@ -51,4 +61,13 @@ data class ModifyPostBody(
     val authorId: String,
     val title: String,
     val content: String
+)
+
+data class ReadPostViewModel(
+    val authorName: String,
+    var title: String,
+    var content: String,
+    val createdAt: LocalDateTime,
+    var lastModifiedAt: LocalDateTime,
+    val comments: List<CommentQueryResult>
 )
