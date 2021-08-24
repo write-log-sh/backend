@@ -10,7 +10,7 @@ interface JoinUseCase {
 data class JoinCommand(
     val email: String,
     val nickname: String,
-    val profileImage: String?,
+    val profileImageUrl: String?,
     val bio: String?,
 )
 

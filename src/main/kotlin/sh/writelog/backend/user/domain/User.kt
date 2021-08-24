@@ -20,16 +20,16 @@ class User(
         fun createNew(
             nickname: Nickname,
             email: Email,
-            profileImageUrl: String = "",
-            bio: String = ""
+            profileImageUrl: String? = null,
+            bio: String? = null
         ): User {
             val now = LocalDateTime.now()
             return User(
                 id = UserId(),
                 nickname = nickname,
                 email = email,
-                profileImageUrl = profileImageUrl,
-                bio = bio,
+                profileImageUrl = profileImageUrl ?: "",
+                bio = bio ?: "",
                 createdAt = now,
                 lastModifiedAt = now
             )

@@ -70,7 +70,7 @@ internal class UserTest : FunSpec({
                 val uut = withConstantNow(now) {
                     User.createNew(
                         nickname = nickname,
-                        email = email,
+                        email = email
                     )
                 }
 
