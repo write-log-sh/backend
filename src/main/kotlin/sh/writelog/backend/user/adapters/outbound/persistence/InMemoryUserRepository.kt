@@ -8,6 +8,9 @@ import sh.writelog.backend.user.domain.UserId
 @Repository
 class InMemoryUserRepository : UserRepository {
     private val users = HashMap<UserId, User>()
+    override fun findById(id: UserId): User? {
+        return users[id]
+    }
 
     override fun findByEmail(email: Email): User? {
         return users.values.find { it.email == email }
@@ -15,5 +18,9 @@ class InMemoryUserRepository : UserRepository {
 
     override fun save(user: User) {
         users[user.id] = user
+    }
+
+    override fun remove(id: UserId) {
+        users.remove(id)
     }
 }
