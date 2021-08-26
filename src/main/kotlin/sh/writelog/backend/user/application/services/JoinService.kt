@@ -27,6 +27,7 @@ class JoinService(
             profileImageUrl = command.profileImageUrl,
             bio = command.bio
         )
+        println(newUser.id)
         saveUserPort.save(newUser)
     }
 
