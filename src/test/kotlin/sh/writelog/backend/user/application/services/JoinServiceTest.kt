@@ -63,10 +63,10 @@ internal class JoinServiceTest: FunSpec({
                 saveUserPort.save(capture(slot))
             }
             with(slot) {
-                captured.email shouldBe Email(email)
-                captured.nickname shouldBe Nickname(nickname)
-                captured.profileImageUrl shouldBe ""
-                captured.bio shouldBe ""
+                captured.email() shouldBe Email(email)
+                captured.nickname() shouldBe Nickname(nickname)
+                captured.profileImageUrl() shouldBe ""
+                captured.bio() shouldBe ""
             }
         }
 
@@ -90,10 +90,10 @@ internal class JoinServiceTest: FunSpec({
                 saveUserPort.save(capture(slot))
             }
             with(slot) {
-                captured.email shouldBe Email(email)
-                captured.nickname shouldBe Nickname(nickname)
-                captured.profileImageUrl shouldBe profileImageUrl
-                captured.bio shouldBe bio
+                captured.email() shouldBe Email(email)
+                captured.nickname() shouldBe Nickname(nickname)
+                captured.profileImageUrl() shouldBe profileImageUrl
+                captured.bio() shouldBe bio
             }
         }
     }

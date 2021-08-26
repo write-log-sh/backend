@@ -13,7 +13,7 @@ class InMemoryUserRepository : UserRepository {
     }
 
     override fun findByEmail(email: Email): User? {
-        return users.values.find { it.email == email }
+        return users.values.find { it.email() == email }
     }
 
     override fun save(user: User) {

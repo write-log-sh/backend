@@ -8,6 +8,7 @@ import sh.writelog.backend.user.application.port.outbound.LoadUserPort
 import sh.writelog.backend.user.application.port.outbound.SaveUserPort
 import sh.writelog.backend.user.domain.Email
 import sh.writelog.backend.user.domain.Nickname
+import sh.writelog.backend.user.domain.Profile
 import sh.writelog.backend.user.domain.User
 
 @Service
@@ -22,10 +23,12 @@ class JoinService(
         checkEmailAlreadyExists(user)
 
         val newUser = User.createNew(
-            nickname = Nickname(command.nickname),
-            email = email,
-            profileImageUrl = command.profileImageUrl,
-            bio = command.bio
+            Profile(
+                nickname = Nickname(command.nickname),
+                email = email,
+                imageUrl = command.profileImageUrl,
+                bio = command.bio
+            )
         )
         println(newUser.id)
         saveUserPort.save(newUser)

@@ -9,27 +9,16 @@ data class UserId(
 
 class User(
     val id: UserId,
-    val nickname: Nickname,
-    val email: Email,
-    val profileImageUrl: String,
-    val bio: String,
+    val profile: Profile,
     val createdAt: LocalDateTime,
     val lastModifiedAt: LocalDateTime
 ) {
     companion object {
-        fun createNew(
-            nickname: Nickname,
-            email: Email,
-            profileImageUrl: String? = null,
-            bio: String? = null
-        ): User {
+        fun createNew(profile: Profile): User {
             val now = LocalDateTime.now()
             return User(
                 id = UserId(),
-                nickname = nickname,
-                email = email,
-                profileImageUrl = profileImageUrl ?: "",
-                bio = bio ?: "",
+                profile = profile,
                 createdAt = now,
                 lastModifiedAt = now
             )
@@ -37,22 +26,32 @@ class User(
 
         fun create(
             id: UserId,
-            nickname: Nickname,
-            email: Email,
-            profileImageUrl: String,
-            bio: String,
+            profile: Profile,
             createdAt: LocalDateTime,
             lastModifiedAt: LocalDateTime
         ): User {
             return User(
                 id = id,
-                nickname = nickname,
-                email = email,
-                profileImageUrl = profileImageUrl,
-                bio = bio,
+                profile = profile,
                 createdAt = createdAt,
                 lastModifiedAt = lastModifiedAt
             )
         }
+    }
+
+    fun nickname(): Nickname {
+        return profile.nickname
+    }
+
+    fun email(): Email {
+        return profile.email
+    }
+
+    fun profileImageUrl(): String? {
+        return profile.imageUrl
+    }
+
+    fun bio(): String? {
+        return profile.bio
     }
 }
