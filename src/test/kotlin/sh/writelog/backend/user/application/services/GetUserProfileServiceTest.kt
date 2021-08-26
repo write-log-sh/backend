@@ -11,7 +11,6 @@ import sh.writelog.backend.user.application.port.inbound.GetUserProfileQuery
 import sh.writelog.backend.user.application.port.outbound.LoadUserPort
 import sh.writelog.backend.user.domain.Email
 import sh.writelog.backend.user.domain.Nickname
-import sh.writelog.backend.user.domain.Profile
 import sh.writelog.backend.user.domain.User
 import sh.writelog.backend.user.domain.UserId
 
