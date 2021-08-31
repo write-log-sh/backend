@@ -22,6 +22,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
+
     testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
     testImplementation("io.kotest:kotest-runner-junit5:4.4.3")
     testImplementation("io.mockk:mockk:1.12.0")
